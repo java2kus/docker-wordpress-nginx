@@ -52,5 +52,11 @@ ENDL
   killall mysqld
 fi
 
+# def sftp user
+if [[ -n $SFTP_USER ]];then
+echo "---> Setting SFTP user passwd..."
+echo $SFTP_USER |chpasswd
+fi
+
 # start all the services
 /usr/local/bin/supervisord -n

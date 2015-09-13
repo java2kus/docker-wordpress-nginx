@@ -49,6 +49,11 @@ RUN rm -rf /usr/share/nginx/www
 RUN mv /usr/share/nginx/wordpress /usr/share/nginx/www
 RUN chown -R www-data:www-data /usr/share/nginx/www
 
+#Install proftpd
+RUN apt-get install proftpd-basic && apt-get clean 
+ADD conf/proftpd.conf /etc/proftpd/proftpd.conf
+ADD conf/sftp.conf /etc/proftpd/conf.d/
+
 # Wordpress Initialization and Startup Script
 ADD ./start.sh /start.sh
 RUN chmod 755 /start.sh
@@ -56,6 +61,7 @@ RUN chmod 755 /start.sh
 # private expose
 EXPOSE 3306
 EXPOSE 80
+EXPOSE 2221
 
 # volume for mysql database and wordpress install
 VOLUME ["/var/lib/mysql", "/usr/share/nginx/www"]
